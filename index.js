@@ -19,6 +19,8 @@ async function run() {
         const serviceCollection = client.db('bakeUser').collection('services');
         const reviewsCollection = client.db('bakeUser').collection('reviews');
 
+        // services api
+
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query).sort({ _id: -1 });
@@ -38,6 +40,8 @@ async function run() {
             const result = await serviceCollection.insertOne(service);
             res.send(result);
         });
+
+        // reviews api
 
         app.post('/reviews', async (req, res) => {
             const review = req.body;
@@ -104,6 +108,4 @@ app.listen(port, () => {
     console.log(`Cake User server running on ${port}`);
 })
 
-// xM7aAz2Y7PWQqRNp
-// bakeUser
 
