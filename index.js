@@ -33,9 +33,15 @@ async function run() {
             res.send(service);
         });
 
+        app.post('/services', async (req, res) => {
+            const service = req.body;
+            const result = await serviceCollection.insertOne(service);
+            res.send(result);
+        });
+
         app.post('/reviews', async (req, res) => {
-            const order = req.body;
-            const result = await reviewsCollection.insertOne(order);
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
             res.send(result);
         });
 
@@ -59,7 +65,27 @@ async function run() {
             res.send(orders);
         });
 
+        app.delete('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await reviewsCollection.deleteOne(query);
+            res.send(result);
+        })
 
+        app.patch('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const user = req.body;
+            const query = { _id: ObjectId(id) }
+            const updatedDoc = {
+                $set: {
+                    name: user.name,
+                    message: user.message,
+                    email: user.email
+                }
+            }
+            const result = await reviewsCollection.updateOne(query, updatedDoc);
+            res.send(result);
+        });
     }
     finally {
 
