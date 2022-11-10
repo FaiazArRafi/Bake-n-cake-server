@@ -61,8 +61,8 @@ async function run() {
                 }
             }
             const cursor = reviewsCollection.find(query);
-            const orders = await cursor.toArray();
-            res.send(orders);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
         });
 
         app.delete('/reviews/:id', async (req, res) => {
@@ -72,20 +72,7 @@ async function run() {
             res.send(result);
         })
 
-        app.patch('/reviews/:id', async (req, res) => {
-            const id = req.params.id;
-            const user = req.body;
-            const query = { _id: ObjectId(id) }
-            const updatedDoc = {
-                $set: {
-                    name: user.name,
-                    message: user.message,
-                    email: user.email
-                }
-            }
-            const result = await reviewsCollection.updateOne(query, updatedDoc);
-            res.send(result);
-        });
+
     }
     finally {
 
